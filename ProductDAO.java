@@ -2,15 +2,15 @@ import java.sql.*;
 import java.util.*;
 
 public class ProductDAO {
-    private Connection connection;
+    private Databaseconnection connection;
 
-    public ProductDAO(Connection connection) {
-        this.connection = connection;
-    }
+    public ProductDAO(Databaseconnection connection) {
+        this.Databaseconnection = connection;
+    }   
 
     public void addProduct(Product product) throws SQLException {
         String query = "INSERT INTO products (name, price, quantity, seller_id) VALUES (?, ?, ?, ?)";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        try (PreparedStatement stmt = connection.PreparedStatement(query)) {
             stmt.setString(1, product.getName());
             stmt.setDouble(2, product.getPrice());
             stmt.setInt(3, product.getQuantity());
@@ -24,7 +24,7 @@ public class ProductDAO {
     public List<Product> getAllProducts() throws SQLException {
         List<Product> products = new ArrayList<>();
         String query = "SELECT * FROM products";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        try (PreparedStatement stmt = connection.PreparedStatement(query)) {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 products.add(new Product(rs.getInt("id"), rs.getString("name"), rs.getDouble("price"), rs.getInt("quantity"), rs.getInt("seller_id")));
@@ -35,7 +35,7 @@ public class ProductDAO {
 
     public Product getProductById(int id) throws SQLException {
         String query = "SELECT * FROM products WHERE id = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        try (PreparedStatement stmt = connection.PreparedStatement(query)) {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
@@ -48,7 +48,7 @@ public class ProductDAO {
     public List<Product> getProductsBySellerId(int sellerId) throws SQLException {
         List<Product> products = new ArrayList<>();
         String query = "SELECT * FROM products WHERE seller_id = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        try (PreparedStatement stmt = connection.PreparedStatement(query)) {
             stmt.setInt(1, sellerId);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
@@ -60,7 +60,7 @@ public class ProductDAO {
 
     public void updateProduct(Product product) throws SQLException {
         String query = "UPDATE products SET name = ?, price = ?, quantity = ?, seller_id = ? WHERE id = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        try (PreparedStatement stmt = connection.Preparestatement(query)) {
             stmt.setString(1, product.getName());
             stmt.setDouble(2, product.getPrice());
             stmt.setInt(3, product.getQuantity());
@@ -72,7 +72,7 @@ public class ProductDAO {
 
     public void deleteProduct(int id) throws SQLException {
         String query = "DELETE FROM products WHERE id = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        try (PreparedStatement stmt = connection.PreparedStatement(query)) {
             stmt.setInt(1, id);
             stmt.executeUpdate();
         }
@@ -80,7 +80,7 @@ public class ProductDAO {
 
     public void deleteProductsBySellerId(int sellerId) throws SQLException {
         String query = "DELETE FROM products WHERE seller_id = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        try (PreparedStatement stmt = connection.PreparedStatement(query)) {
             stmt.setInt(1, sellerId);
             stmt.executeUpdate();
         }
@@ -256,6 +256,6 @@ public class ProductDAO {
         }
     }
 
-    
+
 
 }
